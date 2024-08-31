@@ -1,8 +1,21 @@
-# Nome do Projeto
+# Encurtador de URL
 
-<img src="imagem.png" alt="Exemplo imagem">
+**Encurtador de URL** é um encurtador de URLs que permite aos usuários criar URLs curtas e amigáveis para redirecionar para URLs longas. Além disso, o projeto é ideal para simplificar links e rastrear acessos e cliques em URLs encurtadas. Aqui estão as principais funcionalidades:
 
-> Linha adicional de texto informativo sobre o que o projeto faz. Sua introdução deve ter cerca de 2 ou 3 linhas. Não exagere, as pessoas não vão ler.
+- **Criação de URLs Encurtadas:**
+  - Permite que os usuários enviem uma URL longa e obtenham uma URL curta correspondente.
+  - A URL encurtada pode ser compartilhada facilmente e redireciona para a URL original.
+
+- **Redirecionamento de URLs Encurtadas:**
+  - Acessar uma URL encurtada redireciona automaticamente para a URL original associada.
+
+- **Gerenciamento de URLs Encurtadas:**
+  - Usuários autenticados podem listar, editar e excluir suas URLs encurtadas.
+  - O sistema evita a criação de URLs duplicadas para um mesmo usuário.
+
+- **Contabilização de Acessos e Cliques:**
+  - O projeto registra o número de acessos para cada URL encurtada.
+  - Conta o número de cliques em cada URL encurtada, permitindo análise detalhada de popularidade e uso.
 
 ### Possíveis melhorias
 
