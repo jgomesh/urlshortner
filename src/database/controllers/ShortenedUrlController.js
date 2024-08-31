@@ -21,7 +21,6 @@ class ShortenedUrlController {
     const originalUrlWithProtocol = ensureProtocol(original_url);
   
     try {
-      // Se userId for null, sempre criamos uma nova URL
       if (userId === null) {
         let shortCode;
         let existingUrl;
@@ -33,13 +32,12 @@ class ShortenedUrlController {
         const newUrl = await ShortenedUrl.create({
           original_url: originalUrlWithProtocol,
           short_code: shortCode,
-          user_id: userId, // user_id pode ser null
+          user_id: userId,
         });
   
         return res.status(201).json({ shortUrl: `http://localhost:3001/${newUrl.short_code}` });
       }
   
-      // Se userId não for null, verificamos se a URL já existe para o usuário
       const userExists = await User.findOne({ where: { id: userId } });
       if (!userExists) {
         return res.status(400).json({ message: 'User does not exist' });

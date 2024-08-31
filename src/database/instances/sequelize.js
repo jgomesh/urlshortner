@@ -2,10 +2,8 @@ const { Sequelize } = require('sequelize');
 const config = require('../../config/config.js');
 require('dotenv').config();
 
-// Cria uma instância do Sequelize
 const sequelize = new Sequelize(config);
 
-// Função para autenticar a conexão com o banco de dados
 const authenticateDatabase = async () => {
   try {
     await sequelize.authenticate();

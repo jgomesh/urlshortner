@@ -95,7 +95,7 @@ Siga estas etapas para instalar e rodar o projeto:
     NEW_RELIC_LICENSE_KEY="suachave"
     NEW_RELIC_LOG_LEVEL=debug
     NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
-    
+
 3. **Suba os containers com Docker Compose:**
    - No terminal, execute:
      ```bash
@@ -189,10 +189,6 @@ Para monitorar a performance e o uso de recursos:
 3. **Configurar alertas:**
    - Configure alertas para monitorar a saúde do aplicativo e receber notificações sobre problemas de desempenho.
 
-## 📄 Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
-
 ## 📫 Contato
 
-Se você tiver dúvidas ou sugestões, entre em contato com [seu-email@dominio.com](mailto:seu-email@dominio.com).
+Se você tiver dúvidas ou sugestões, entre em contato com [joao.gomeshugill@gmail.com](mailto:joao.gomeshugill@gmail.com).
