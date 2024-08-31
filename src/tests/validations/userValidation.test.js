@@ -7,7 +7,7 @@ app.use(express.json());
 app.post('/test', validateUser, (req, res) => res.status(200).send('Valid user'));
 
 describe('validateUser Middleware', () => {
-  it('should call next() for valid user data', async () => {
+  it('should call next() for valid user data ', async () => {
     const response = await request(app)
       .post('/test')
       .send({
