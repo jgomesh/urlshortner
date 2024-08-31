@@ -32,7 +32,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - Você tem uma máquina `<Windows / Linux / Mac>`. O projeto é compatível com os três sistemas operacionais.
 - Você leu a [documentação do Docker](https://docs.docker.com/get-docker/) e a [documentação do VS Code](https://code.visualstudio.com/docs/setup/setup-overview) se necessário.
 
-## 🚀 Instalando <Nome_Do_Projeto>
+## 🚀 Instalando Encurtador de URL
 
 Siga estas etapas para instalar e rodar o projeto:
 
@@ -70,14 +70,30 @@ Siga estas etapas para instalar e rodar o projeto:
 1. **Baixar e instalar:**
    - Visite [Visual Studio Code](https://code.visualstudio.com/) e siga as instruções para instalar o VS Code para o seu sistema operacional.
 
+
 #### **Windows:**
 
 1. **Baixar e instalar:**
    - Baixe o [Visual Studio Code para Windows](https://code.visualstudio.com/Download) e siga as instruções de instalação.
 
-## ☕ Usando Encurtador de URL
+### 3. Rodando o Projeto
 
-Para usar o Encurtador de URL, siga estas etapas:
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+2. **Suba os containers com Docker Compose:**
+   - No terminal, execute:
+     ```bash
+     docker-compose up --build
+     ```
+
+3. **Acesse o Projeto:**
+   - Após o Docker Compose ter subido os containers, você pode acessar o projeto em [http://localhost:3001](http://localhost:3001).
+
+
+##☕ Usando Encurtador de URL
+
 
 1. **Crie uma URL encurtada:**
    - Envie um POST para `/create` com o JSON `{ "original_url": "http://exemplo.com" }`. Exemplo de como fazer isso com `curl`:
