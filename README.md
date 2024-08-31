@@ -82,13 +82,27 @@ Siga estas etapas para instalar e rodar o projeto:
    ```bash
    git clone https://github.com/seu-usuario/seu-repositorio.git
    cd seu-repositorio
-2. **Suba os containers com Docker Compose:**
+
+2. **Adicione um .env como esse:**
+    PORT=3001
+    DB_PORT=5432
+    DB_HOST=postgres
+    DB_NAME=tsauth
+    DB_USER=postgres
+    DB_PASS=postgres
+    JWT_SECRET=secret
+    NEW_RELIC_APP_NAME="URL Shortner"
+    NEW_RELIC_LICENSE_KEY="suachave"
+    NEW_RELIC_LOG_LEVEL=debug
+    NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
+    
+3. **Suba os containers com Docker Compose:**
    - No terminal, execute:
      ```bash
      docker-compose up --build
      ```
 
-3. **Acesse o Projeto:**
+4. **Acesse o Projeto:**
    - Após o Docker Compose ter subido os containers, você pode acessar o projeto em [http://localhost:3001](http://localhost:3001).
 
 
