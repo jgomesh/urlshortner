@@ -93,6 +93,7 @@ class ShortenedUrlController {
       await Click.create({ shortened_url_id: shortenedUrl.id });
   
       // Atualiza o click_count
+      console.log("VE", shortenedUrl.click_count)
       if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined || shortenedUrl.click_count === 0) {
         shortenedUrl.click_count = 1;
       } else {
