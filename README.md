@@ -80,8 +80,8 @@ Siga estas etapas para instalar e rodar o projeto:
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone git@github.com:jgomesh/urlshortner.git
+   cd urlshortner
 
 2. **Adicione um .env como esse:**
     PORT=3001
@@ -102,6 +102,12 @@ Siga estas etapas para instalar e rodar o projeto:
      docker-compose up --build
      ```
 
+     ou
+
+        ```bash
+     docker-compose up
+     ```
+   !! CASO EXISTA EXPERIMENTE EXCLUIR A PASTA node_modules e o package-lock.json para reinstalar as dependências
 4. **Acesse o Projeto:**
    - Após o Docker Compose ter subido os containers, você pode acessar o projeto em [http://localhost:3001](http://localhost:3001).
 

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -22,7 +20,7 @@ services:
     volumes:
       - .:/backend
     command: >
-      sh -c "npm install && npx sequelize-cli db:migrate && npm rebuild bcrypt --build-from-source && npm start"
+      sh -c "npm install && npx sequelize-cli db:migrate && npm start"
 
   postgres:
     image: postgres:13

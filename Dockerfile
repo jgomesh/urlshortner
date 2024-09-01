@@ -11,8 +11,8 @@ ENV NEW_RELIC_APP_NAME="URL Shortner"
 
 COPY package.json package-lock*.json .sequelizerc ./
 
-RUN npm install && npm rebuild bcrypt --build-from-source
+RUN npm install
 
-COPY . .a
+COPY . .
 
 CMD ["npm", "start"]

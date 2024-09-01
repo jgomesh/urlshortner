@@ -19,7 +19,7 @@ const authAdmin = (req, res, next) => {
     }
     console.log(id);
     req.userId = id;
-    next();
+    return next();
   } catch {
     return res.sendStatus(401);
   }

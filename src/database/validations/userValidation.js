@@ -15,7 +15,7 @@ const validateUser = (req, res, next) => {
     return res.status(400).json({ errors: errorMessages });
   }
 
-  next();
+  return next();
 };
 
 module.exports = validateUser;

@@ -7,7 +7,7 @@ const validateUrl = (req, res, next) => {
     return res.status(400).json({ error: 'Invalid URL format or URL is too long' });
   }
 
-  next();
+  return next();
 };
 
 module.exports = validateUrl;

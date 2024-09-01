@@ -21,7 +21,7 @@ const authFreeMiddleware = (req, res, next) => {
     req.role = null;
   }
 
-  next();
+  return next();
 };
 
 module.exports = authFreeMiddleware;
