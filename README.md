@@ -107,7 +107,7 @@ Siga estas etapas para instalar e rodar o projeto:
         ```bash
      docker-compose up
      ```
-   !! CASO EXISTA EXPERIMENTE EXCLUIR A PASTA node_modules e o package-lock.json para reinstalar as dependências
+   !! CASO EXISTA, EXPERIMENTE EXCLUIR A PASTA node_modules e o package-lock.json para reinstalar as dependências
 4. **Acesse o Projeto:**
    - Após o Docker Compose ter subido os containers, você pode acessar o projeto em [http://localhost:3001](http://localhost:3001).
 
@@ -116,7 +116,7 @@ Siga estas etapas para instalar e rodar o projeto:
 
 
 1. **Crie uma URL encurtada:**
-   - Envie um POST para `/create` com o JSON `{ "original_url": "http://exemplo.com" }`. Exemplo de como fazer isso com `curl`:
+   - Envie um POST para `/shorten` com o JSON `{ "original_url": "http://exemplo.com" }`. Exemplo de como fazer isso com `curl`:
      ```bash
      curl -X POST http://localhost:3001/create -H "Content-Type: application/json" -d '{"original_url": "http://exemplo.com"}'
      ```
@@ -128,34 +128,32 @@ Siga estas etapas para instalar e rodar o projeto:
      http://localhost:3001/shortCode
      ```
 
-3. **Listar URLs encurtadas:**
-   - Envie um GET para `/urls` para listar todas as URLs encurtadas e seus códigos. Exemplo de como fazer isso com `curl`:
-     ```bash
-     curl -X GET http://localhost:3001/urls
-     ```
+3. **Listagem de URLS, com seus cliques:**
+   - Envie um GET para `/linksUsed` para listar todas as URLs encurtadas e seus códigos. Mande o Bearer Token:  Exemplo de como fazer isso com `curl`:
+   ```bash
+curl -X GET "http://localhost:3001/linksUsed" \
+     -H "Authorization: Bearer YOUR_BEARER_TOKEN" \
+     -H "Content-Type: application/json"
+      ```
 
 4. **Excluir uma URL encurtada:**
-   - Envie um DELETE para `/delete/:shortCode` para excluir a URL encurtada associada ao `shortCode`. Exemplo de como fazer isso com `curl`:
+   - Envie um DELETE para `/urls/:shortCode` para excluir a URL encurtada associada ao `shortCode`. Exemplo de como fazer isso com `curl`:
      ```bash
-     curl -X DELETE http://localhost:3001/delete/shortCode
-     ```
-
-5. **Contabilizar acessos:**
-   - As estatísticas de acessos podem ser visualizadas enviando um GET para `/stats/:shortCode`. Exemplo de como fazer isso com `curl`:
-     ```bash
-     curl -X GET http://localhost:3001/stats/shortCode
+     curl -X DELETE http://localhost:3001/urls/shortCode \
+     -H "Authorization: Bearer YOUR_BEARER_TOKEN" \
+     -H "Content-Type: application/json"
      ```
 
 6. **Autenticação de usuários (se aplicável):**
    - **Criar um usuário:**
-     Envie um POST para `/users` com o JSON `{ "username": "user", "password": "pass" }`.
+     Envie um POST para `/register` com o JSON `{ "name": "Nome", "email": "email", "password": "pass" }`.
      ```bash
-     curl -X POST http://localhost:3001/users -H "Content-Type: application/json" -d '{"username": "user", "password": "pass"}'
+     curl -X POST http://localhost:3001/register -H "Content-Type: application/json" -d '{"email": "email", "password": "pass"}'
      ```
    - **Login de usuário:**
-     Envie um POST para `/login` com o JSON `{ "username": "user", "password": "pass" }`.
+     Envie um POST para `/login` com o JSON `{ "email": "email", "password": "pass" }`.
      ```bash
-     curl -X POST http://localhost:3001/login -H "Content-Type: application/json" -d '{"username": "user", "password": "pass"}'
+     curl -X POST http://localhost:3001/login -H "Content-Type: application/json" -d '{"email": "email", "password": "pass"}'
      ```
    - **Autenticar operações:**
      Utilize o token obtido do login para autenticar operações como criar, listar, ou excluir URLs.
