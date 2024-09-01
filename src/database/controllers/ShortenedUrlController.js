@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const ShortenedUrl = require('../models/shortenedUrl.js');
 const Click = require('../models/click.js');
 const User = require('../models/user.js');
-
+const sequelize = require('../instances/sequelize.js')
 const generateShortCode = (length = 6) => {
   return crypto.randomBytes(length).toString('base64').slice(0, length).replace(/\+/g, '0').replace(/\//g, '0');
 };
@@ -88,6 +88,7 @@ class ShortenedUrlController {
     const { shortCode } = req.params;
   
     try {
+      // Encontra a URL encurtada
       const shortenedUrl = await ShortenedUrl.findOne({ where: { short_code: shortCode } });
   
       if (!shortenedUrl) {
@@ -98,25 +99,24 @@ class ShortenedUrlController {
         return res.status(410).json({ message: 'URL has been deleted' });
       }
   
-      // Cria o click primeiro
-      await Click.create({ shortened_url_id: shortenedUrl.id });
+      // Cria o click e atualiza o click_count em uma única transação para garantir atomicidade
+      await sequelize.transaction(async (transaction) => {
+        // Cria o click
+        await Click.create({ shortened_url_id: shortenedUrl.id }, { transaction });
   
-      // Atualiza o click_count
-      console.log("VE", shortenedUrl.click_count)
-      if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined || shortenedUrl.click_count === 0) {
-        shortenedUrl.click_count = 1;
-      } else {
-        shortenedUrl.click_count = 1;
-      }
-      
-      await shortenedUrl.save();
+        // Atualiza o click_count
+        shortenedUrl.click_count = (shortenedUrl.click_count || 0) + 1;
+        await shortenedUrl.save({ transaction });
+      });
   
+      // Redireciona após o sucesso da transação
       return res.redirect(shortenedUrl.original_url);
     } catch (error) {
       console.error('Error handling redirect:', error);
       return res.status(500).json({ message: 'Failed to handle redirect' });
     }
   }
+  
   
 
   async list(req, res) {
