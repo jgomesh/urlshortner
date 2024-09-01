@@ -88,15 +88,16 @@ class ShortenedUrlController {
         return res.status(410).json({ message: 'URL has been deleted' });
       }
   
+      // Cria o click primeiro
       await Click.create({ shortened_url_id: shortenedUrl.id });
   
+      // Atualiza o click_count
       if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined) {
         shortenedUrl.click_count = 1;
-
       } else {
-        
         shortenedUrl.click_count += 1;
       }
+      
       await shortenedUrl.save();
   
       return res.redirect(shortenedUrl.original_url);
@@ -105,6 +106,7 @@ class ShortenedUrlController {
       return res.status(500).json({ message: 'Failed to handle redirect' });
     }
   }
+  
 
   async list(req, res) {
     const userId = req.userId;
