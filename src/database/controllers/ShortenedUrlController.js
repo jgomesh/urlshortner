@@ -33,6 +33,7 @@ class ShortenedUrlController {
           original_url: originalUrlWithProtocol,
           short_code: shortCode,
           user_id: userId,
+          click_count: 0
         });
   
         return res.status(201).json({ shortUrl: `https://urlshortner-1-7rst.onrender.com/${newUrl.short_code}` });
@@ -92,7 +93,7 @@ class ShortenedUrlController {
       await Click.create({ shortened_url_id: shortenedUrl.id });
   
       // Atualiza o click_count
-      if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined) {
+      if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined || shortenedUrl.click_count === 0) {
         shortenedUrl.click_count = 1;
       } else {
         shortenedUrl.click_count += 1;
