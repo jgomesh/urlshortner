@@ -77,49 +77,32 @@ class ShortenedUrlController {
   async redirect(req, res) {
     const { shortCode } = req.params;
   
-    const transaction = await sequelize.transaction(); // Iniciar a transação
-  
     try {
-      const shortenedUrl = await ShortenedUrl.findOne({ 
-        where: { short_code: shortCode }, 
-        transaction // Passar a transação para a consulta
-      });
+      const shortenedUrl = await ShortenedUrl.findOne({ where: { short_code: shortCode } });
   
       if (!shortenedUrl) {
-        await transaction.rollback(); // Reverter transação se não encontrar URL
         return res.status(404).json({ message: 'URL not found' });
       }
   
       if (shortenedUrl.deleted_at) {
-        await transaction.rollback(); // Reverter transação se URL estiver deletada
         return res.status(410).json({ message: 'URL has been deleted' });
       }
   
-      // Criar o clique dentro da transação
-      await Click.create({ 
-        shortened_url_id: shortenedUrl.id 
-      }, { transaction });
+      await Click.create({ shortened_url_id: shortenedUrl.id });
   
-      // Verificar e atualizar o contador de cliques
       if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined) {
-        shortenedUrl.click_count = 1; // Definir click_count como 1 se não existir
+        shortenedUrl.click_count = 1;
       } else {
-        shortenedUrl.click_count += 1; // Incrementar click_count se já existir
+        shortenedUrl.click_count += 1;
       }
-  
-      // Salvar as alterações dentro da transação
-      await shortenedUrl.save({ transaction });
-  
-      await transaction.commit(); // Confirmar transação
+      await shortenedUrl.save();
   
       return res.redirect(shortenedUrl.original_url);
     } catch (error) {
-      await transaction.rollback();
       console.error('Error handling redirect:', error);
       return res.status(500).json({ message: 'Failed to handle redirect' });
     }
   }
-  
 
   async list(req, res) {
     const userId = req.userId;
