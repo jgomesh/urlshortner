@@ -77,28 +77,49 @@ class ShortenedUrlController {
   async redirect(req, res) {
     const { shortCode } = req.params;
   
+    const transaction = await sequelize.transaction(); // Iniciar a transação
+  
     try {
-      const shortenedUrl = await ShortenedUrl.findOne({ where: { short_code: shortCode } });
+      const shortenedUrl = await ShortenedUrl.findOne({ 
+        where: { short_code: shortCode }, 
+        transaction // Passar a transação para a consulta
+      });
   
       if (!shortenedUrl) {
+        await transaction.rollback(); // Reverter transação se não encontrar URL
         return res.status(404).json({ message: 'URL not found' });
       }
   
       if (shortenedUrl.deleted_at) {
+        await transaction.rollback(); // Reverter transação se URL estiver deletada
         return res.status(410).json({ message: 'URL has been deleted' });
       }
   
-      await Click.create({ shortened_url_id: shortenedUrl.id });
+      // Criar o clique dentro da transação
+      await Click.create({ 
+        shortened_url_id: shortenedUrl.id 
+      }, { transaction });
   
-      shortenedUrl.click_count += 1;
-      await shortenedUrl.save();
+      // Verificar e atualizar o contador de cliques
+      if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined) {
+        shortenedUrl.click_count = 1; // Definir click_count como 1 se não existir
+      } else {
+        shortenedUrl.click_count += 1; // Incrementar click_count se já existir
+      }
+  
+      // Salvar as alterações dentro da transação
+      await shortenedUrl.save({ transaction });
+  
+      await transaction.commit(); // Confirmar transação
   
       return res.redirect(shortenedUrl.original_url);
     } catch (error) {
+      await transaction.rollback();
       console.error('Error handling redirect:', error);
       return res.status(500).json({ message: 'Failed to handle redirect' });
     }
   }
+  
 
   async list(req, res) {
     const userId = req.userId;
