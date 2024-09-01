@@ -92,7 +92,9 @@ class ShortenedUrlController {
   
       if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined) {
         shortenedUrl.click_count = 1;
+
       } else {
+        
         shortenedUrl.click_count += 1;
       }
       await shortenedUrl.save();
