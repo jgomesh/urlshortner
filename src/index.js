@@ -4,8 +4,8 @@ const users = require('./database/routes/users');
 const shortenedUrl = require('./database/routes/shortedUrls');
 const sequelize = require('./database/instances/sequelize');
 const dotenv = require('dotenv');
-//require('newrelic');
 const cors = require('cors');
+require('newrelic');
 dotenv.config();
 
 const app = express();
