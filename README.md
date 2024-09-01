@@ -196,3 +196,4 @@ Para monitorar a performance e o uso de recursos:
 ## 📫 Contato
 
 Se você tiver dúvidas ou sugestões, entre em contato com [joao.gomeshugill@gmail.com](mailto:joao.gomeshugill@gmail.com).
+# short_url_frontend
