@@ -35,7 +35,7 @@ class ShortenedUrlController {
           user_id: userId,
         });
   
-        return res.status(201).json({ shortUrl: `http://localhost:3001/${newUrl.short_code}` });
+        return res.status(201).json({ shortUrl: `https://urlshortner-1-7rst.onrender.com/${newUrl.short_code}` });
       }
   
       const userExists = await User.findOne({ where: { id: userId } });
@@ -51,7 +51,7 @@ class ShortenedUrlController {
       });
   
       if (existingUrlForUser) {
-        return res.status(200).json({ shortUrl: `http://localhost:3001/${existingUrlForUser.short_code}` });
+        return res.status(200).json({ shortUrl: `https://urlshortner-1-7rst.onrender.com/${existingUrlForUser.short_code}` });
       }
   
       let shortCode;
@@ -67,7 +67,7 @@ class ShortenedUrlController {
         user_id: userId,
       });
   
-      return res.status(201).json({ shortUrl: `http://localhost:3001/${newUrl.short_code}` });
+      return res.status(201).json({ shortUrl: `https://urlshortner-1-7rst.onrender.com/${newUrl.short_code}` });
     } catch (error) {
       console.error('Error creating shortened URL:', error);
       return res.status(500).json({ message: 'Failed to create URL' });
