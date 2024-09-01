@@ -44,6 +44,7 @@ class ShortenedUrlController {
         return res.status(400).json({ message: 'User does not exist' });
       }
   
+      // Check if the URL exists and has been marked as deleted
       const existingUrlForUser = await ShortenedUrl.findOne({
         where: {
           original_url: originalUrlWithProtocol,
@@ -52,7 +53,15 @@ class ShortenedUrlController {
       });
   
       if (existingUrlForUser) {
-        return res.status(200).json({ shortUrl: `https://urlshortner-1-7rst.onrender.com/${existingUrlForUser.short_code}` });
+        if (existingUrlForUser.deleted_at !== null) {
+          // URL exists but was marked as deleted; update it
+          existingUrlForUser.deleted_at = null;
+          await existingUrlForUser.save();
+          return res.status(200).json({ shortUrl: `https://urlshortner-1-7rst.onrender.com/${existingUrlForUser.short_code}` });
+        } else {
+          // URL exists and is not deleted
+          return res.status(200).json({ shortUrl: `https://urlshortner-1-7rst.onrender.com/${existingUrlForUser.short_code}` });
+        }
       }
   
       let shortCode;
@@ -97,7 +106,7 @@ class ShortenedUrlController {
       if (shortenedUrl.click_count === null || shortenedUrl.click_count === undefined || shortenedUrl.click_count === 0) {
         shortenedUrl.click_count = 1;
       } else {
-        shortenedUrl.click_count += 1;
+        shortenedUrl.click_count = 1;
       }
       
       await shortenedUrl.save();
