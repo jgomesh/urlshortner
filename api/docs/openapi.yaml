@@ -1,0 +1,255 @@
+openapi: 3.0.0
+info:
+  title: URL Shortener API
+  description: API para encurtar URLs e gerenciar URLs encurtadas
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+paths:
+  /shorten:
+    post:
+      summary: Cria uma URL encurtada
+      security:
+        - authFree: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                original_url:
+                  type: string
+                  format: uri
+                  example: http://example.com
+      responses:
+        '201':
+          description: URL encurtada criada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shortUrl:
+                    type: string
+                    example: http://localhost:3001/abc123
+        '500':
+          description: Erro ao criar URL encurtada
+          
+  /linksUsed:
+    get:
+      summary: Lista todas as URLs encurtadas do usuário
+      security:
+        - authFree: []
+      responses:
+        '200':
+          description: Lista de URLs encurtadas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  urls:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        short_code:
+                          type: string
+                        original_url:
+                          type: string
+        '500':
+          description: Erro ao listar URLs encurtadas
+          
+  /urls/{shortCode}:
+    put:
+      summary: Atualiza uma URL encurtada
+      security:
+        - auth: []
+      parameters:
+        - name: shortCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                original_url:
+                  type: string
+                  format: uri
+                  example: http://example.com
+      responses:
+        '200':
+          description: URL encurtada atualizada com sucesso
+        '404':
+          description: URL encurtada não encontrada
+        '500':
+          description: Erro ao atualizar URL encurtada
+
+    delete:
+      summary: Deleta uma URL encurtada
+      security:
+        - auth: []
+      parameters:
+        - name: shortCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: URL encurtada deletada com sucesso
+        '404':
+          description: URL encurtada não encontrada
+        '500':
+          description: Erro ao deletar URL encurtada
+
+  /{shortCode}:
+    get:
+      summary: Redireciona para a URL original
+      parameters:
+        - name: shortCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redireciona para a URL original
+        '404':
+          description: URL encurtada não encontrada
+        '410':
+          description: URL encurtada foi deletada
+
+  /users:
+    get:
+      summary: Lista todos os usuários
+      security:
+        - authAdmin: []
+      responses:
+        '200':
+          description: Lista de usuários
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        email:
+                          type: string
+        '500':
+          description: Erro ao listar usuários
+
+  /user/{id}:
+    delete:
+      summary: Deleta um usuário
+      security:
+        - authAdmin: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuário deletado com sucesso
+        '404':
+          description: Usuário não encontrado
+        '500':
+          description: Erro ao deletar usuário
+
+  /register:
+    post:
+      summary: Registra um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Usuário registrado com sucesso
+        '409':
+          description: Conflito, usuário já existe
+        '500':
+          description: Erro ao registrar usuário
+
+  /login:
+    post:
+      summary: Autentica um usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Autenticação bem-sucedida
+        '401':
+          description: Credenciais inválidas
+        '500':
+          description: Erro ao autenticar usuário
+
+  /auth:
+    get:
+      summary: Obtém informações do usuário autenticado
+      security:
+        - auth: []
+      responses:
+        '200':
+          description: Informações do usuário
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  name:
+                    type: string
+                  role:
+                    type: string
+        '404':
+          description: Usuário não encontrado
+        '500':
+          description: Erro ao obter informações do usuário
+
+components:
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer
+    authAdmin:
+      type: http
+      scheme: bearer
+    authFree:
+      type: http
+      scheme: bearer
